@@ -11,8 +11,26 @@ const getContact = async (request, response) => {
   }
 };
 
+const getContactById = async (request, response) => {
+  try {
+    const { id } = request.params;
+    const getByData = await CONTACT.findById(id);
+    if (getByData) {
+      return response.send(getByData);
+    } else {
+      return response.send(`No data with that ID format found`);
+    }
+  } catch (error) {
+    return response.send(error.message);
+  }
+};
+
 const postContact = async (request, response) => {
   const sentContact = request.body;
+  const findUser = await CONTACT.findOne(sentContact);
+  if (findUser) {
+    return response.send(`Contact already exists`);
+  }
   try {
     const postData = await CONTACT.create(sentContact);
     response.status(201).send(postData);
@@ -125,6 +143,7 @@ const deleteContact = async (request, response) => {
 
 module.exports = {
   getContact,
+  getContactById,
   postContact,
   updateName,
   updateEmail,

@@ -7,11 +7,13 @@ const {
   updateDescription,
   deleteContact,
   updateMobile,
+  getContactById,
 } = require("../controller/contactController");
 
 const route = express.Router();
 
 route.get("/contact", getContact);
+route.get("/contact/:id", getContactById)
 
 route.post("/contact", postContact);
 
